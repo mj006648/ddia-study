@@ -169,18 +169,18 @@ DDIA는 크게 세 부분으로 구성됩니다.
 
 | Chapter | Status |
 |---|---|
-| 01. Reliable, Scalable, and Maintainable Applications | 예정 |
-| 02. Data Models and Query Languages | 예정 |
-| 03. Storage and Retrieval | 예정 |
-| 04. Encoding and Evolution | 예정 |
-| 05. Replication | 예정 |
-| 06. Partitioning | 예정 |
-| 07. Transactions | 예정 |
-| 08. The Trouble with Distributed Systems | 예정 |
-| 09. Consistency and Consensus | 예정 |
-| 10. Batch Processing | 예정 |
-| 11. Stream Processing | 예정 |
-| 12. The Future of Data Systems | 예정 |
+| 01. Reliable, Scalable, and Maintainable Applications | 초안 작성 |
+| 02. Data Models and Query Languages | 초안 작성 |
+| 03. Storage and Retrieval | 초안 작성 |
+| 04. Encoding and Evolution | 초안 작성 |
+| 05. Replication | 초안 작성 |
+| 06. Partitioning | 초안 작성 |
+| 07. Transactions | 초안 작성 |
+| 08. The Trouble with Distributed Systems | 초안 작성 |
+| 09. Consistency and Consensus | 초안 작성 |
+| 10. Batch Processing | 초안 작성 |
+| 11. Stream Processing | 초안 작성 |
+| 12. The Future of Data Systems | 초안 작성 |
 
 ## 참고
 
