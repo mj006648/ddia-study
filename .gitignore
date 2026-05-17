@@ -1,0 +1,10 @@
+# Markdown / docs
+.DS_Store
+
+# Local editor
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
