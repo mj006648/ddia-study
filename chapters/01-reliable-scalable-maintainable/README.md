@@ -98,3 +98,18 @@ Trident Lakehouse 관점에서는 Redis/Milvus 같은 acceleration layer가 추�
 ## 9. 한 문단 요약
 
 1장은 데이터 중심 애플리케이션을 평가하는 기본 기준으로 reliability, scalability, maintainability를 제시합니다. 장애를 완전히 없애는 것이 아니라 fault가 failure로 이어지지 않게 만들고, 부하 증가에 대한 성능 변화를 측정 가능하게 표현하며, 장기적으로 운영·수정 가능한 단순한 구조를 만드는 것이 좋은 데이터 시스템 설계의 출발점입니다.
+
+## 10. 설계 체크리스트
+
+- **신뢰성 경계:** DB, 캐시, 메시지 큐, 워크플로우 엔진 중 어느 컴포넌트가 실패해도 사용자 요청이 계속 처리되어야 하는지 구분한다.
+- **복구 목표:** RPO와 RTO를 정한다. RPO는 잃어도 되는 데이터 양이고, RTO는 복구까지 허용되는 시간이다.
+- **부하 모델:** QPS, 동시 사용자, 데이터 증가량, 요청별 fan-out, background job 수를 분리해 본다.
+- **관찰 가능성:** 장애를 감지하려면 latency, error rate, saturation, queue length, replication lag, retry count를 봐야 한다.
+
+## 11. 미니 사례
+
+메타데이터 검색 서비스가 느려졌다고 가정한다. 평균 latency는 80ms지만 p99는 3초라면, 대부분 사용자는 괜찮아도 일부 workflow가 timeout으로 실패할 수 있다. 이 경우 “평균 성능 개선”보다 tail latency를 만드는 원인, 예를 들어 특정 인기 데이터셋의 lock contention, slow query, cache miss storm을 찾아야 한다.
+
+## 12. 한 줄 결론
+
+데이터 시스템 설계의 출발점은 제품명이 아니라, 어떤 장애를 견디고 어떤 부하를 감당하며 얼마나 쉽게 바뀔 수 있어야 하는지 정의하는 것이다.

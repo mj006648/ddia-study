@@ -80,3 +80,18 @@ Trident Lakehouse 같은 구조는 이 장의 관점과 잘 맞습니다. Iceber
 ## 9. 한 문단 요약
 
 12장은 현대 데이터 시스템을 여러 specialized component와 derived dataflow의 조합으로 바라봅니다. 좋은 시스템은 storage, stream, batch, index, cache, catalog를 목적에 맞게 분리하면서도 source of truth, lineage, correctness, recovery, ethics를 end-to-end로 관리해야 합니다.
+
+## 10. 설계 체크리스트
+
+- **원천/파생 구분:** 각 저장소가 system of record인지 derived view인지 표시한다.
+- **재생성 경로:** 파생 데이터가 깨졌을 때 원천에서 다시 만들 수 있는지 확인한다.
+- **데이터플로우 문서화:** 어떤 이벤트와 batch job이 어떤 테이블/인덱스를 만드는지 기록한다.
+- **거버넌스:** 스키마, 권한, 계보, 품질, 보존 정책을 데이터플로우와 함께 관리한다.
+
+## 11. 미니 사례
+
+Lakehouse에서 Parquet 파일, Iceberg metadata, PostgreSQL catalog, Redis location cache, Milvus vector index가 모두 같은 데이터를 바라볼 수 있다. 그러나 이 중 진실의 원천은 Iceberg snapshot과 catalog이고, Redis와 Milvus는 파생 가속 계층이다. Redis나 Milvus가 깨져도 원천 메타데이터에서 재생성할 수 있어야 한다.
+
+## 12. 한 줄 결론
+
+현대 데이터 시스템은 여러 전문 시스템의 조합이며, 성공의 핵심은 이들을 하나의 재현 가능한 데이터플로우와 메타데이터 체계로 묶는 것이다.

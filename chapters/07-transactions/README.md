@@ -74,3 +74,18 @@ Trident Lakehouse에서는 catalog metadata, Redis cache, Milvus index, object s
 ## 9. 한 문단 요약
 
 7장은 transaction이 동시성과 장애로부터 애플리케이션을 보호하는 abstraction임을 설명합니다. ACID와 isolation level을 이해해야 dirty read, lost update, write skew 같은 문제를 피할 수 있으며, 특히 분산 시스템에서는 강한 transaction과 성능·가용성 사이의 trade-off를 명확히 선택해야 합니다.
+
+## 10. 설계 체크리스트
+
+- **불변조건:** 동시에 실행되어도 깨지면 안 되는 규칙을 먼저 쓴다.
+- **격리 수준:** read committed, snapshot isolation, serializable 중 필요한 수준을 선택한다.
+- **동시성 이상:** lost update, write skew, phantom read가 가능한 흐름을 찾는다.
+- **외부 부작용:** DB transaction과 이메일, 파일 업로드, 메시지 발행 같은 외부 작업의 경계를 정한다.
+
+## 11. 미니 사례
+
+두 사용자가 동시에 같은 데이터셋을 공개 상태로 변경하고 권한 정책을 수정한다고 하자. 스냅샷 격리에서는 각 트랜잭션이 서로 다른 행만 수정하면 전체 보안 정책의 불변조건이 깨질 수 있다. 이런 경우 unique constraint, explicit lock, serializable transaction, 또는 상태 전이 테이블을 이용해 불변조건을 DB 수준에서 보호해야 한다.
+
+## 12. 한 줄 결론
+
+트랜잭션은 편의 기능이 아니라 불변조건을 지키는 도구이며, 어떤 불변조건을 지켜야 하는지 모르면 적절한 격리 수준도 고를 수 없다.

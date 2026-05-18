@@ -89,3 +89,18 @@ Iceberg commit은 optimistic concurrency와 atomic metadata pointer update가 �
 ## 9. 한 문단 요약
 
 9장은 분산 시스템에서 일관된 상태와 결정을 만들기 위한 linearizability, ordering, distributed transaction, consensus를 설명합니다. 강한 consistency는 correctness를 단순하게 하지만 latency와 availability 비용이 있으며, consensus는 leader election과 replicated log 같은 핵심 coordination에는 유용하지만 모든 데이터 경로에 적용하기에는 무겁습니다.
+
+## 10. 설계 체크리스트
+
+- **강한 일관성 대상:** 리더 선출, lock, 권한, 현재 스냅샷 포인터처럼 반드시 최신이어야 하는 데이터를 분리한다.
+- **합의 저장소 사용:** etcd/ZooKeeper/Consul을 critical path에 과도하게 넣지 않는다.
+- **순서 보장:** 이벤트 처리 순서가 결과에 영향을 주는지 확인한다.
+- **Failover:** 리더 변경 중 중복 리더나 오래된 리더가 쓰지 못하게 한다.
+
+## 11. 미니 사례
+
+Iceberg 테이블에서 새 snapshot을 커밋할 때, 두 writer가 동시에 현재 snapshot을 기준으로 새 파일 목록을 만들 수 있다. 최종적으로 하나의 snapshot pointer만 현재 상태가 되어야 하므로 compare-and-swap 또는 catalog transaction이 필요하다. 검색 인덱스 갱신은 늦어도 되지만 snapshot pointer 자체는 강한 정합성이 필요하다.
+
+## 12. 한 줄 결론
+
+모든 데이터를 강하게 일관되게 만들 필요는 없지만, 시스템의 현재 상태를 결정하는 작은 메타데이터는 강한 합의와 원자성이 필요하다.

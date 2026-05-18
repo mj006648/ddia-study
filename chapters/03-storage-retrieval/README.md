@@ -116,3 +116,18 @@ Redis는 in-memory key-value access, Milvus는 vector index, PostgreSQL은 B-tre
 ## 9. 한 문단 요약
 
 3장은 데이터베이스의 저장 엔진이 read/write trade-off를 어떻게 다루는지 설명합니다. Hash index, LSM-tree, B-tree, column store는 각각 다른 workload에 최적화되어 있으며, 좋은 storage design은 단순히 빠른 DB를 고르는 것이 아니라 query pattern, update pattern, indexing cost, compaction, compression, OLTP/OLAP 요구를 함께 고려하는 것입니다.
+
+## 10. 설계 체크리스트
+
+- **쓰기 경로:** 쓰기 요청이 WAL, memtable, index, replica, cache invalidation 중 어디까지 동기적으로 거치는지 확인한다.
+- **읽기 경로:** 읽기 요청이 cache, index, storage file, remote object store 중 어디를 순서대로 확인하는지 그린다.
+- **증폭 비용:** write amplification, read amplification, space amplification을 구분한다.
+- **분석 포맷:** row format과 column format을 목적별로 분리한다.
+
+## 11. 미니 사례
+
+객체 저장소 위에 Parquet 파일을 두고 Iceberg로 테이블을 관리하는 경우, 데이터 파일 자체는 대량 스캔에 최적화되어 있다. 하지만 “현재 snapshot이 무엇인가”, “어떤 파일이 추가/삭제되었는가”는 작은 메타데이터 조회이다. 이 둘을 같은 방식으로 최적화하면 안 된다. 데이터 파일은 컬럼형 대용량 처리에 맞추고, 메타데이터는 빠른 갱신과 조회에 맞춰야 한다.
+
+## 12. 한 줄 결론
+
+저장 엔진은 읽기와 쓰기의 타협점이며, 데이터 파일·인덱스·메타데이터는 서로 다른 접근 패턴을 가진다.

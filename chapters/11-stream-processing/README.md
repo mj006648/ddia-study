@@ -84,3 +84,18 @@ Redis/Milvus/PostgreSQL/Iceberg를 함께 갱신하는 경우 exactly-once를 �
 ## 9. 한 문단 요약
 
 11장은 stream processing을 지속적으로 들어오는 event log를 처리하는 방식으로 설명합니다. Event time, windowing, joins, checkpoint, exactly-once semantics가 핵심이며, 낮은 지연을 얻는 대신 ordering, late event, state management, idempotent sink 같은 복잡성을 명확히 설계해야 합니다.
+
+## 10. 설계 체크리스트
+
+- **전달 보장:** at-most-once, at-least-once, effectively-once 중 무엇을 목표로 하는지 정한다.
+- **중복 제거:** event_id, idempotent sink, deduplication window를 둔다.
+- **시간 기준:** event time과 processing time을 명확히 구분한다.
+- **늦은 이벤트:** watermark 이후 도착한 이벤트를 버릴지, 보정할지 정한다.
+
+## 11. 미니 사례
+
+GPU 사용량 대시보드는 stream으로 거의 실시간 집계할 수 있다. 하지만 네트워크 지연 때문에 일부 사용량 이벤트가 늦게 들어오면 분 단위 사용률이 나중에 수정될 수 있다. 실시간 대시보드는 근사값을 보여주고, 정산·보고용 통계는 batch 재처리로 확정하는 이중 구조가 안전하다.
+
+## 12. 한 줄 결론
+
+스트림 처리는 빠른 결과를 주지만, 중복·지연·순서 문제를 정상 상황으로 설계해야 한다.

@@ -165,22 +165,29 @@ DDIA는 크게 세 부분으로 구성됩니다.
 ## 9. 한 문단 요약
 ```
 
+## 추가 학습 자료
+
+- [Study Plan](study-plan.md): 5주차 기준 학습 진행 계획과 장별 과제
+- [Architecture Map](notes/architecture-map.md): DDIA 전체 개념을 데이터 플랫폼 아키텍처 흐름으로 연결한 지도
+- [Study Questions](notes/study-questions.md): 장별 토론·설계 리뷰 질문 모음
+- [Glossary](references/glossary.md): 핵심 용어 정리
+
 ## 진행 상태
 
 | Chapter | Status |
 |---|---|
-| 01. Reliable, Scalable, and Maintainable Applications | 초안 작성 |
-| 02. Data Models and Query Languages | 초안 작성 |
-| 03. Storage and Retrieval | 초안 작성 |
-| 04. Encoding and Evolution | 초안 작성 |
-| 05. Replication | 초안 작성 |
-| 06. Partitioning | 초안 작성 |
-| 07. Transactions | 초안 작성 |
-| 08. The Trouble with Distributed Systems | 초안 작성 |
-| 09. Consistency and Consensus | 초안 작성 |
-| 10. Batch Processing | 초안 작성 |
-| 11. Stream Processing | 초안 작성 |
-| 12. The Future of Data Systems | 초안 작성 |
+| 01. Reliable, Scalable, and Maintainable Applications | 상세 작성 |
+| 02. Data Models and Query Languages | 상세 작성 |
+| 03. Storage and Retrieval | 상세 작성 |
+| 04. Encoding and Evolution | 상세 작성 |
+| 05. Replication | 상세 작성 |
+| 06. Partitioning | 상세 작성 |
+| 07. Transactions | 상세 작성 |
+| 08. The Trouble with Distributed Systems | 상세 작성 |
+| 09. Consistency and Consensus | 상세 작성 |
+| 10. Batch Processing | 상세 작성 |
+| 11. Stream Processing | 상세 작성 |
+| 12. The Future of Data Systems | 상세 작성 |
 
 ## 참고
 

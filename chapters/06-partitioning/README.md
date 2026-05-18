@@ -70,3 +70,18 @@ Lakehouse에서는 partitioning이 query pruning과 밀접합니다. Iceberg는 
 ## 9. 한 문단 요약
 
 6장은 partitioning을 통해 대규모 데이터와 부하를 여러 노드에 분산하는 방법을 설명합니다. Key-range와 hash partitioning은 각각 range query와 load balancing에서 장단점이 있으며, skew, hot spot, secondary index, rebalancing을 고려하지 않으면 scale-out이 오히려 복잡성과 병목을 만들 수 있습니다.
+
+## 10. 설계 체크리스트
+
+- **파티션 키 후보:** tenant, dataset_id, time, region, domain, hash key를 비교한다.
+- **질의 패턴:** 가장 흔한 query가 단일 파티션에서 끝나는지 확인한다.
+- **Hot key:** 특정 대형 사용자, 인기 데이터셋, 최신 시간대에 부하가 몰리는지 확인한다.
+- **Rebalancing:** 노드 추가 시 데이터 이동량과 서비스 영향도를 예측한다.
+
+## 11. 미니 사례
+
+시간 기준 파티셔닝은 “최근 1일 데이터 조회”에는 좋지만 모든 쓰기가 최신 파티션에 몰릴 수 있다. 반대로 dataset_id 해시 파티셔닝은 쓰기를 분산하지만 기간별 분석 스캔이 여러 파티션으로 흩어진다. 분석 시스템에서는 시간+도메인 파티션을 쓰고, 메타데이터 조회 시스템에서는 dataset_id 기반 인덱스를 별도로 두는 식의 분리가 필요하다.
+
+## 12. 한 줄 결론
+
+파티셔닝은 데이터를 나누는 일이 아니라, 부하와 질의를 어떤 비용 구조로 만들 것인지 결정하는 일이다.

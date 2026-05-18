@@ -80,3 +80,18 @@ Lakehouse metadata catalog에서는 replication lag가 query correctness에 영�
 ## 9. 한 문단 요약
 
 5장은 replication을 통해 availability와 read scalability를 얻는 대신 consistency와 conflict 문제가 생긴다는 점을 설명합니다. Leader-based, multi-leader, leaderless replication은 각각 단순성, 지리적 분산, 장애 허용성에서 다른 trade-off를 가지며, replication lag와 conflict resolution을 명확히 설계해야 합니다.
+
+## 10. 설계 체크리스트
+
+- **쓰기 위치:** 쓰기를 받을 수 있는 노드가 하나인지 여러 개인지 정한다.
+- **복제 방식:** 동기/비동기 복제 중 무엇을 쓰고, 장애 시 데이터 손실을 어디까지 허용할지 정한다.
+- **읽기 일관성:** 팔로워 읽기에서 read-your-writes가 필요한지 확인한다.
+- **충돌 해결:** multi-leader 또는 offline write가 있으면 충돌 해결 규칙을 애플리케이션 의미로 정의한다.
+
+## 11. 미니 사례
+
+사용자가 데이터셋 권한을 변경한 직후, 팔로워 replica에서 오래된 권한을 읽으면 접근이 잘못 허용될 수 있다. 권한·보안 등급·공개 상태는 리더 또는 strongly consistent store에서 읽고, 설명 메타데이터 검색은 replica나 인덱스 지연을 허용하는 식으로 경계를 나누어야 한다.
+
+## 12. 한 줄 결론
+
+복제는 가용성과 성능을 주지만, 어떤 읽기가 오래된 값을 봐도 되는지 명확히 정하지 않으면 보안과 정합성 문제가 된다.

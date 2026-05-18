@@ -81,3 +81,18 @@ Trident Lakehouse의 Accumulation Pipeline은 raw dataset을 Bronze/Silver로 �
 ## 9. 한 문단 요약
 
 10장은 batch processing을 bounded data set에 대한 안정적이고 재현 가능한 처리 방식으로 설명합니다. MapReduce, shuffle, join, workflow scheduler는 대규모 derived data를 만드는 핵심 구성요소이며, batch는 latency보다 correctness, throughput, replay, backfill이 중요한 작업에 적합합니다.
+
+## 10. 설계 체크리스트
+
+- **입력 스냅샷:** job이 읽은 입력 데이터 버전을 기록한다.
+- **코드 버전:** 처리 코드, 파라미터, 환경 정보를 남긴다.
+- **출력 원자성:** 부분 출력이 최종 결과처럼 보이지 않게 한다.
+- **재처리 비용:** 전체 재처리와 증분 재처리의 비용을 비교한다.
+
+## 11. 미니 사례
+
+화재 위험 점수 Gold table을 만들 때, 날씨 데이터와 시설 데이터의 특정 날짜 스냅샷을 입력으로 사용했다면 그 버전을 기록해야 한다. 나중에 알고리즘이 바뀌어 점수가 달라졌을 때, 이전 점수가 어떤 입력과 코드로 만들어졌는지 추적할 수 있어야 한다. 그렇지 않으면 결과를 재현하거나 비교할 수 없다.
+
+## 12. 한 줄 결론
+
+Batch processing의 강점은 대량 처리보다 재처리 가능성이고, 이를 위해 입력·코드·출력의 경계를 명확히 해야 한다.

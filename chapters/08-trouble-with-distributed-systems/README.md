@@ -70,3 +70,18 @@ Kubernetes 환경에서는 pod restart, network partition, node pressure, GC pau
 ## 9. 한 문단 요약
 
 8장은 분산 시스템에서 네트워크, clock, process가 모두 신뢰하기 어렵다는 점을 설명합니다. timeout은 실패의 증거가 아니고, clock은 완전한 순서를 제공하지 않으며, process pause는 lease와 lock을 위험하게 만들 수 있습니다. 안전한 설계를 위해 idempotency, fencing token, logical ordering, 보수적인 failure handling이 필요합니다.
+
+## 10. 설계 체크리스트
+
+- **Timeout 정책:** 네트워크 지연 분포와 재시도 폭증 가능성을 함께 본다.
+- **Idempotency key:** 중복 요청을 안전하게 처리할 키를 둔다.
+- **Fencing token:** lock/lease 기반 작업에는 최신 소유자만 쓰기 가능하게 한다.
+- **부분 장애:** 한 컴포넌트만 느린 경우 전체 요청이 어떻게 degraded되는지 확인한다.
+
+## 11. 미니 사례
+
+워크플로우 엔진이 작업 실행 요청을 보냈지만 응답을 받지 못했다. 실제로 작업은 실행되었고 응답만 유실되었을 수 있다. 이때 단순 재시도하면 같은 HPC job이 두 번 실행될 수 있다. 작업 제출에는 idempotency key를 붙이고, 동일 키의 작업은 한 번만 생성되도록 해야 한다.
+
+## 12. 한 줄 결론
+
+분산 시스템의 핵심은 실패 여부를 정확히 알 수 없다는 점이며, 안전한 재시도와 소유권 검증이 설계의 기본이다.
